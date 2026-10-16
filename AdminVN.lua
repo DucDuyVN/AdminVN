@@ -3,7 +3,7 @@
 -- Tác giả: DucDuyVN
 -- ==========================================
 
--- 1. Sửa lỗi dòng số 9: Thư viện tạo Menu GUI (Kavo Library)
+-- 1. ĐÃ SỬA LỖI: Thư viện tạo Menu GUI (Kavo Library) chuẩn của GitHub
 local KavoUi = loadstring(game:HttpGet("https://githubusercontent.com"))()
 local Window = KavoUi.CreateLib("AdminVN - Infinite Yield Mini", "Midnight")
 
@@ -53,7 +53,6 @@ ToggleButton.MouseButton1Click:Connect(function()
     if menuOpen then
         -- Mở lại menu
         game:GetService("VirtualUser"):ClickButton2(Vector2.new(0,0))
-        -- Kavo UI tự động nhận diện phím ảo, đoạn này gọi hàm ẩn hiện gốc của Kavo
         pcall(function()
             local gui = CoreGui:FindFirstChild("AdminVN - Infinite Yield Mini") or LocalPlayer.PlayerGui:FindFirstChild("AdminVN - Infinite Yield Mini")
             if gui then gui.Enabled = true end
