@@ -1,1 +1,73 @@
-local Kavo=loadstring(game:HttpGet("https://githubusercontent.com"))() local Win=Kavo.CreateLib("AdminVN V4 - Du Moi Thu","Midnight") game:GetService("StarterGui"):SetCore("SendNotification",{Title="AdminVN Loaded!",Text="Phim mo thanh lenh chu la ( ; )",Duration=5}) local P,LP,RS,UIS,CG=game:GetService("Players"),game:GetService("Players").LocalPlayer,game:GetService("RunService"),game:GetService("UserInputService"),game:GetService("CoreGui") local fly,nc,ij,farm,fCon,nCon,jCon,espB=false,false,false,false,nil,nil,nil,{} local SG,CB,BC,TB,TC=Instance.new("ScreenGui"),Instance.new("TextBox"),Instance.new("UICorner"),Instance.new("ImageButton"),Instance.new("UICorner") SG.Name="AVN_Core" SG.Parent=CG CB.Name="CB" CB.Parent=SG CB.BackgroundColor3=Color3.fromRGB(25,25,25) CB.Position=UDim2.new(0.5,-200,0,-50) CB.Size=UDim2.new(0,400,0,40) CB.Font=Enum.Font.Code CB.Text="" CB.TextColor3=Color3.fromRGB(255,255,255) CB.PlaceholderText="Go lenh... (;fly ;speed 100 ;esp ;autofarm)" CB.Visible=false BC.CornerRadius=UDim.new(0,8) BC.Parent=CB TB.Name="TB" TB.Parent=SG TB.BackgroundColor3=Color3.fromRGB(20,20,20) TB.Position=UDim2.new(0,10,0,150) TB.Size=UDim2.new(0,50,0,50) TB.Image="rbxassetid://6031225818" TB.ImageColor3=Color3.fromRGB(255,0,0) TB.Active=true TB.Draggable=true TC.CornerRadius=UDim.new(0,25) TC.Parent=TB local mO=true TB.MouseButton1Click:Connect(function() mO=not mO pcall(function() local g=CG:FindFirstChild("AdminVN V4 - Du Moi Thu") or LP.PlayerGui:FindFirstChild("AdminVN V4 - Du Moi Thu") if g then g.Enabled=mO end end) end) local function tCB() CB.Visible=not CB.Visible if CB.Visible then CB:TweenPosition(UDim2.new(0.5,-200,0,50),"Out","Quad",0.3,true) CB:CaptureFocus() else CB:TweenPosition(UDim2.new(0.5,-200,0,-50),"Out","Quad",0.3,true) CB.Text="" end end UIS.InputBegan:Connect(function(i,p) if not p and i.KeyCode==Enum.KeyCode.Semicolon then tCB() end end) local function uS(v) if LP.Character and LP.Character:FindFirstChild("Humanoid") then LP.Character.Humanoid.WalkSpeed=v end end local function uJ(v) if LP.Character and LP.Character:FindFirstChild("Humanoid") then LP.Character.Humanoid.JumpPower=v end end local function sF(s) fly=s if s then if fCon then fCon:Disconnect() end fCon=RS.RenderStepped:Connect(function() if fly and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then LP.Character.Humanoid.PlatformStand=true LP.Character.HumanoidRootPart.Velocity=LP.Character.Humanoid.MoveDirection*LP.Character.Humanoid.WalkSpeed+(UIS:IsKeyDown(Enum.KeyCode.Space) and Vector3.new(0,LP.Character.Humanoid.JumpPower,0) or UIS:IsKeyDown(Enum.KeyCode.LeftShift) and Vector3.new(0,-LP.Character.Humanoid.JumpPower,0) or Vector3.new(0,0,0)) end end) else if fCon then fCon:Disconnect() end if LP.Character and LP.Character:FindFirstChild("Humanoid") then LP.Character.Humanoid.PlatformStand=false end end end local function sN(s) nc=s if s then nCon=RS.Stepped:Connect(function() if nc and LP.Character then for _,v in pairs(LP.Character:GetDescendants()) do if v:IsA("BasePart") then v.CanCollide=false end end end end) else if nCon then nCon:Disconnect() end end end local function sJ(s) ij=s if s then jCon=UIS.JumpRequest:Connect(function() if ij and LP.Character and LP.Character:FindFirstChildOfClass("Humanoid") then LP.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end) else if jCon then jCon:Disconnect() end end end local function sE(s) if s then for _,p in pairs(P:GetPlayers()) do if p~=LP and p.Character and not espB[p] then local b=Instance.new("Highlight") b.FillColor=Color3.fromRGB(255,0,0) b.FillOpacity=0.5 b.Parent=p.Character espB[p]=b end end else for p,b in pairs(espB) do if b then b:Destroy() end end espB={} end end local function sA(s) farm=s if s then task.spawn(function() while farm do pcall(function() for _,e in pairs(workspace:GetChildren()) do if e:IsA("Model") and (e.Name:match("Egg") or e.Name:match("Trung")) then e:MoveTo(LP.Character.HumanoidRootPart.Position) end end end) task.wait(0.3) end end) end end CB.FocusLost:Connect(function(e) local t=CB.Text tCB() if e and string.sub(t,1,1)==";" then local c=string.lower(string.split(string.sub(t,2)," ")[1]) local a=string.split(string.sub(t,2)," ")[2] if c=="fly" then sF(true) elseif c=="unfly" then sF(false) elseif c=="noclip" then sN(true) elseif c=="clip" then sN(false) elseif c=="infjump" then sJ(true) elseif c=="uninfjump" then sJ(false) elseif c=="esp" then sE(true) elseif c=="unesp" then sE(false) elseif c=="autofarm" then sA(true) elseif c=="unautofarm" then sA(false) elseif c=="speed" or c=="ws" then uS(tonumber(a) or 16) elseif c=="jumppower" or c=="jp" then uJ(tonumber(a) or 50) elseif c=="sit" then LP.Character.Humanoid.Sit=true elseif c=="jump" then LP.Character.Humanoid.Jump=true elseif c=="re" then LP.Character.Humanoid.Health=0 end end end) local T1=Win:NewTab("Di Chuyen") local S1=T1:NewSection("Nut Bam") S1:NewSlider("Toc Do", "Speed", 500, 16, uS) S1:NewSlider("Suc Nhay", "Jump", 500, 50, uJ) S1:NewToggle("Bay (Fly)", "Fly", sF) S1:NewToggle("Xuyen Tuong", "Noclip", sN) S1:NewToggle("Nhay Vo Han", "Inf Jump", sJ) local T2=Win:NewTab("Steal An Egg") local S2=T2:NewSection("Auto") S2:NewToggle("Auto Hut Trung", "Farm", sA) S2:NewToggle("ESP Nguoi Choi", "ESP", sE) S2:NewButton("Anti-AFK", "AFK", function() LP.Idled:Connect(function() game:GetService("VirtualUser"):CaptureController() game:GetService("VirtualUser"):ClickButton2(Vector2.new(0,0)) end) end)
+-- ==========================================
+-- ADMIN SCRIPT: AdminVN Ultimate Edition
+-- Phiên bản: V5 (Max Lệnh + Game Custom)
+-- Tác giả: DucDuyVN
+-- ==========================================
+
+-- 1. Kích hoạt toàn bộ lõi hệ thống hàng trăm lệnh của Infinite Yield gốc
+pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+end)
+
+-- 2. Khởi tạo thêm Menu GUI độc quyền của thương hiệu AdminVN
+local KavoUi = loadstring(game:HttpGet("https://githubusercontent.com"))()
+local Window = KavoUi.CreateLib("AdminVN V5 - Bản Tối Thượng Thừa Hưởng IY", "Midnight")
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "AdminVN V5 ĐÃ LIÊN KẾT!",
+    Text = "Nhấn ( ; ) để dùng 400+ lệnh IY. Dùng Menu để Auto Farm!",
+    Duration = 7
+})
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local farmConnection
+local autoeag = false
+
+-- TAB ĐỘC QUYỀN: STEAL AN EGG HACK
+local GameTab = Window:NewTab("Steal An Egg")
+local FarmSec = GameTab:NewSection("Auto Cày Cuốc")
+
+-- Tính năng Auto hút trứng siêu tốc
+FarmSec:NewToggle("Auto Hút Toàn Bộ Trứng", "Gom tất cả quả trứng trên map về chân", function(state)
+    autoeag = state
+    if state then
+        task.spawn(function()
+            while autoeag do
+                pcall(function()
+                    local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if root then
+                        for _, egg in pairs(workspace:GetChildren()) do
+                            if egg:IsA("Model") and (egg.Name:match("Egg") or egg.Name:match("Trứng") or egg.Name:match("Trung")) then
+                                egg:MoveTo(root.Position)
+                            end
+                        end
+                    end
+                end)
+                task.wait(0.3)
+            end
+        end)
+    end
+end)
+
+-- Tính năng chống AFK bảo vệ server khi treo máy
+FarmSec:NewButton("Kích Hoạt Chống Treo Máy (Anti-AFK)", "Treo acc cả ngày không lo bị Roblox tự kick", function()
+    local vu = game:GetService("VirtualUser")
+    LocalPlayer.Idled:Connect(function()
+        vu:CaptureController()
+        vu:ClickButton2(Vector2.new(0,0))
+    end)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "AdminVN Utility",
+        Text = "Hệ thống Anti-AFK đã chạy ngầm bảo vệ bạn!",
+        Duration = 3
+    })
+end)
+
+-- TAB HƯỚNG DẪN SỬ DỤNG LỆNH CHỮ CỦA INFINITE YIELD
+local HelpTab = Window:NewTab("Mẹo Lệnh Chữ (IY)")
+local HelpSec = HelpTab:NewSection("Các lệnh gõ bằng dấu chấm phẩy ( ; )")
+HelpSec:NewButton("Lệnh Di Chuyển: ;fly | ;noclip | ;infjump", "Bấm để xem mẹo gõ", function() end)
+HelpSec:NewButton("Lệnh Chỉ Số: ;speed [số] | ;hipheight [số]", "Chỉnh tốc độ và độ cao", function() end)
+HelpSec:NewButton("Lệnh Người Chơi: ;goto [tên] | ;esp | ;view [tên]", "Theo dõi người khác", function() end)
+HelpSec:NewButton("Lệnh Thần Thánh: ;god | ;invisible | ;loopjump", "Các lệnh gian lận tối cao", function() end)
